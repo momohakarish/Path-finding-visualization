@@ -8,13 +8,14 @@ class TileQueue:
         self.queue = PriorityQueue()
         self.duplicate_checker = set()
 
-    def add(self, screen, block_size, line_width, tile_list, color, start_tile, end_tile):
+    def add(self, screen, block_size, line_width, tile_list, color, start_tile, end_tile, last):
         for tile in tile_list:
-            # Ignore he start tile as we don't want to treat it like a normal one
+            # Ignore the start tile as we don't want to treat it like a normal one
             if tile.x == start_tile.x and tile.y == start_tile.y:
                 continue
             # If the end tile was added to the queue don't change its color and other values
             if tile.x == end_tile.x and tile.y == end_tile.y:
+                tile.last = last
                 self.queue.put(tile)
                 continue
 
@@ -23,6 +24,8 @@ class TileQueue:
                 continue
 
             if tile not in self.duplicate_checker:
+                # Changing the last value of the tile
+                tile.last = last
 
                 # Changing the tile's color
                 tile.color = color

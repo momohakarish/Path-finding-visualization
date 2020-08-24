@@ -28,6 +28,14 @@ FPS = 144
 LEFT_CLICK = 1
 
 
+def display_shortest_path(last_tile):
+    while last_tile.last is not None:
+        last_tile.color = BLUE
+        DrawingFunctions.draw_tile(screen, BLOCK_SIZE, LINE_WIDTH, last_tile)
+        pygame.display.update()
+        last_tile = last_tile.last
+
+
 def draw_blocked_tiles():
     finished = False
     mouse_down = False  # Variable for mouse hold
@@ -73,16 +81,6 @@ def parse_tkinter(first_coordinates, second_coordinates):
     end_tile = grid.get_tile(int(second[0]), int(second[1]))
 
 
-def screen_init():
-    # Drawing the grid
-    DrawingFunctions.draw_grid(screen, WHITE, BLACK, SCREEN_WIDTH, SCREEN_HEIGHT, BLOCK_SIZE, LINE_WIDTH)
-
-    # Drawing our two starting tiles in the appropriate color
-    DrawingFunctions.draw_first_tiles(screen, BLOCK_SIZE, LINE_WIDTH, start_tile, end_tile, BLUE)
-
-    pygame.display.update()
-
-
 def tkinter_input():
     # Creating a tkinter window for starting points input
     root = Tk()
@@ -117,6 +115,10 @@ def tkinter_input():
 
 def main():
 
+    # Drawing our screen
+    DrawingFunctions.draw_grid(screen, WHITE, BLACK, SCREEN_WIDTH, SCREEN_HEIGHT, BLOCK_SIZE, LINE_WIDTH)
+    pygame.display.update()
+
     # Getting coordinates for the start and end tiles
     tkinter_input()
 
@@ -124,8 +126,8 @@ def main():
     if start_tile.x == end_tile.x and start_tile.y == end_tile.y:
         return
 
-    # Drawing our screen
-    screen_init()
+    # Drawing start and end tiles
+    DrawingFunctions.draw_first_tiles(screen, BLOCK_SIZE, LINE_WIDTH, start_tile, end_tile, BLUE)
 
     # Drawing our blocked tiles
     draw_blocked_tiles()
@@ -135,7 +137,7 @@ def main():
 
     # Initializing our queue
     start_tile_neighbours = grid.get_neighbour_tiles(start_tile.x, start_tile.y)
-    tile_queue.add(screen, BLOCK_SIZE, LINE_WIDTH, start_tile_neighbours, GREEN, start_tile, end_tile)
+    tile_queue.add(screen, BLOCK_SIZE, LINE_WIDTH, start_tile_neighbours, GREEN, start_tile, end_tile, start_tile)
 
     # Setting up loop variables
     running = True
@@ -147,6 +149,7 @@ def main():
 
         # If the algorithm reached the end tile break
         if best_tile.x == end_tile.x and best_tile.y == end_tile.y:
+            display_shortest_path(best_tile)
             time.sleep(5)
             break
 
@@ -155,17 +158,17 @@ def main():
 
         # Adding the best tile's neighbours to the queue
         neighbours = grid.get_neighbour_tiles(best_tile.x, best_tile.y)
-        tile_queue.add(screen, BLOCK_SIZE, LINE_WIDTH, neighbours, GREEN, start_tile, end_tile)
+        tile_queue.add(screen, BLOCK_SIZE, LINE_WIDTH, neighbours, GREEN, start_tile, end_tile, best_tile)
 
         clock.tick(FPS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
 
-        pygame.display.update()
-
         if tile_queue.empty():
             running = False
+
+        pygame.display.update()
 
 
 # Initializing the game
@@ -185,7 +188,4 @@ end_tile = grid.get_tile(0, 0)
 
 # Starting the visualization
 main()
-
-
-
 

@@ -13,6 +13,7 @@ class Tile:
 
         self.blocked = False
         self.color = color
+        self.last = None    # The tile which we reached the current tile from
 
     # f cost is equal to the sum of the g cost and f cost which are the distance from the starting point and from the end point respectively
     def update_cost(self, start_cell, end_cell):
@@ -32,9 +33,5 @@ class Tile:
 
     def __gt__(self, other):
         return self.f_cost > other.f_cost
-
-
-
-
 
 

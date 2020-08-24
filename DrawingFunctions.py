@@ -23,3 +23,4 @@ def draw_first_tiles(screen, block_size, line_width, start_tile, end_tile, color
     end_tile.color = color
     draw_tile(screen, block_size, line_width, start_tile)
     draw_tile(screen, block_size, line_width, end_tile)
+    pygame.display.update()
