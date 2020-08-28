@@ -39,8 +39,10 @@ class TileQueue:
                 self.queue.put(tile)
                 self.duplicate_checker.add(tile)
 
+    # Returns the first tile in the queue
     def get(self):
         return self.queue.get()
 
+    # Returns if the queue is empty
     def empty(self):
         return self.queue.empty()

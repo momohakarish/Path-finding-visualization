@@ -10,6 +10,8 @@ class Grid:
         self.height = height
         self.grid = self.__create_grid(width, height)
 
+    # Returns representation of our grid
+    # O(width * height) Time complexity
     def __repr__(self):
         grid = ''
         for row in self.grid:
@@ -23,6 +25,7 @@ class Grid:
 
     # Returns a list of cells of all cells neighbouring a cell in the board
     # O(1) Time complexity
+    # O(1) Space complexity
     def get_neighbour_tiles(self, x, y):
         cells = []
         if self.__valid_point(x - 1, y - 1):  # Top left
@@ -45,6 +48,7 @@ class Grid:
 
     # Creates a 2D grid with given dimensions
     # O(width * height) Time complexity
+    # O(width * height) Space complexity
     def __create_grid(self, width, height):
         grid = []
         for y in range(height):
@@ -55,6 +59,7 @@ class Grid:
 
     # Returns if a coordinate is a valid point on the grid
     # O(1) Time complexity
+    # O(1) Space complexity
     def __valid_point(self, x, y):
         return self.height > y >= 0 and self.width > x >= 0
 

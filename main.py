@@ -21,13 +21,14 @@ GREEN = (0, 204, 0)
 BLUE = (0, 153, 153)
 RED = (204, 0, 0)
 
-BLOCK_SIZE = 20
+BLOCK_SIZE = 15
 LINE_WIDTH = 2
 FPS = 144
 
 LEFT_CLICK = 1
 
 
+# Displays the shortest path found by the algorithm
 def display_shortest_path(last_tile):
     while last_tile.last is not None:
         last_tile.color = BLUE
@@ -36,8 +37,9 @@ def display_shortest_path(last_tile):
         last_tile = last_tile.last
 
 
+# Draws all blocked tiles which the user marked
 def draw_blocked_tiles():
-    finished = False
+    finished = False  # Loop control variable
     mouse_down = False  # Variable for mouse hold
 
     while not finished:
@@ -72,6 +74,7 @@ def draw_blocked_tiles():
             pygame.display.update()
 
 
+# Parse the tkinter variables we got from the tkinter window
 def parse_tkinter(first_coordinates, second_coordinates):
     global start_tile, end_tile
 
@@ -81,6 +84,8 @@ def parse_tkinter(first_coordinates, second_coordinates):
     end_tile = grid.get_tile(int(second[0]), int(second[1]))
 
 
+# Displaying a tkinter window and getting user input from it
+# User inputs the start and end coordinates for the tiles
 def tkinter_input():
     # Creating a tkinter window for starting points input
     root = Tk()

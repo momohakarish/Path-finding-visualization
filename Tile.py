@@ -1,5 +1,6 @@
 # This class represents a single tile in our grid
 import math
+import time
 
 
 class Tile:
@@ -19,8 +20,9 @@ class Tile:
     def update_cost(self, start_cell, end_cell):
         self.f_cost = self._distance(start_cell) + self._distance(end_cell)
 
+    # Returns the euclidean distance between the called tile and other tile
     def _distance(self, other):
-        return math.dist((self.x, self.y), (other.x, other.y))
+        return math.dist([self.x, self.y], [other.x, other.y])
 
     def __repr__(self):
         return f'{str(self.x)}, {str(self.y)}, {str(self.color)}, {str(self.f_cost)}'
@@ -33,5 +35,4 @@ class Tile:
 
     def __gt__(self, other):
         return self.f_cost > other.f_cost
-
 
