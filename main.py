@@ -65,6 +65,13 @@ def draw_blocked_tiles():
 
                 # Getting the clicked tile and changing it to be blocked and have the appropriate color
                 tile = grid.get_tile(x, y)
+
+                # Making sure the end and start tiles aren't blocked
+                if tile.x == start_tile.x and tile.y == start_tile.y:
+                    continue
+                if tile.x == end_tile.x and tile.y == end_tile.y:
+                    continue
+
                 tile.blocked = True
                 tile.color = BLACK
 
