@@ -26,6 +26,7 @@ LINE_WIDTH = 2
 FPS = 144
 
 LEFT_CLICK = 1
+RIGHT_CLICK = 3
 
 
 # Displays the shortest path found by the algorithm
@@ -41,6 +42,7 @@ def display_shortest_path(last_tile):
 def draw_blocked_tiles():
     finished = False  # Loop control variable
     mouse_down = False  # Variable for mouse hold
+    right_mouse_down = False
 
     while not finished:
 
@@ -48,16 +50,23 @@ def draw_blocked_tiles():
             if event == pygame.QUIT:    # On quit button clicked
                 finished = True
                 continue
+
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == LEFT_CLICK:    # On left mouse click
                 mouse_down = True
+
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == RIGHT_CLICK:
+                right_mouse_down = True
 
             if event.type == pygame.MOUSEBUTTONUP and event.button == LEFT_CLICK:
                 mouse_down = False
 
+            if event.type == pygame.MOUSEBUTTONUP and event.button == RIGHT_CLICK:
+                right_mouse_down = False
+
             if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:    # If enter button is clicked
                 finished = True
 
-            if mouse_down:
+            if mouse_down or right_mouse_down:
                 # Getting the click position and adjusting it to our grid
                 position = pygame.mouse.get_pos()
                 x, y = position
@@ -72,11 +81,18 @@ def draw_blocked_tiles():
                 if tile.x == end_tile.x and tile.y == end_tile.y:
                     continue
 
-                tile.blocked = True
-                tile.color = BLACK
+                if mouse_down:
+                    tile.blocked = True
+                    tile.color = BLACK
 
-                # Drawing the tile
-                DrawingFunctions.draw_tile(screen, BLOCK_SIZE, LINE_WIDTH, tile)
+                    # Drawing the tile
+                    DrawingFunctions.draw_tile(screen, BLOCK_SIZE, LINE_WIDTH, tile)
+
+                else:
+                    tile.blocked = False
+                    tile.color = WHITE
+
+                    DrawingFunctions.draw_tile(screen, BLOCK_SIZE, LINE_WIDTH, tile)
 
             pygame.display.update()
 
